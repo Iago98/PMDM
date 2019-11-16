@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -35,9 +36,14 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        ArrayList<String> caducados=compararFechas();
+        if(caducados.size()==0){
+
+        }else {
+            itemsCaducadosBorrar(caducados);
+        }
 
 
-        compararFechas();
     }
 
     @Override
@@ -147,9 +153,83 @@ public class MainActivity extends Activity {
         return fecha;
     }
 
-    private void compararFechas() {
+    private void itemsCaducadosBorrar(ArrayList<String> listaCaducada) {
+       final ArrayList<String> caducados= listaCaducada;
+        final ArrayList selectedItems = new ArrayList();
+        final ArrayList<String> seeeelected = new ArrayList<String>();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+       final ArrayList<String> itemCaducados= new ArrayList<>();
+
+        final boolean[] array = new boolean[caducados.size()];
+        for(int x=0;x<caducados.size();x++){
+           itemCaducados.add(items.get(Integer.parseInt(caducados.get(x))));
+            array[x]=false;
+
+
+        }
+        String[] stockArr = itemCaducados.toArray(new String[itemCaducados.size()]);
+        System.out.println("aqui va tu itemscaducados: "+itemCaducados.toString());
+        builder.setMultiChoiceItems(stockArr,array, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean b) {
+            if(b){
+                seeeelected.add(Integer.toString(which));
+
+            }else if(seeeelected.contains(Integer.toString(which))){
+
+                seeeelected.remove(Integer.toString(Integer.valueOf(which)));
+            }
+            System.out.println("MARCADOS "+seeeelected.toString());
+
+            }
+        });
+        builder.setPositiveButton("Eliminar Marcados", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("Items seleccionados para borrar"+which);
+               for (int i=0;i<seeeelected.size();i++){
+
+
+
+
+                   int b=Integer.valueOf(seeeelected.get(i));
+
+
+                   String fechass= fechas.get(Integer.valueOf(caducados.get(b)));
+                   String algo= items.get(Integer.valueOf(caducados.get(b)));
+                   for (int s=0;s<items.size();s++){
+                       if(items.get(s).equals(algo)&&fechass.equals(fechas.get(s))){
+                           MainActivity.this.items.remove( items.get(s));
+                           MainActivity.this.fechas.remove( fechas.get(s));
+                       }else {
+
+                       }
+                   }
+                    System.out.println("ESTOS SON LOS CADUCADSOS "+algo);
+
+
+
+               }
+                MainActivity.this.itemsAdapter.notifyDataSetChanged();
+
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+
+    private ArrayList<String> compararFechas() {
         int valor = 5;
-        final TextView tv= new TextView(this);
+        int index = 0;
+        final TextView tv = new TextView(this);
+        int mensajes = 0;
+        ArrayList<String> posicionCaducada = new ArrayList<String>();
+
         for (int x = 0; x < fechas.size(); x++) {
             String fechaArray = fechas.get(x);
             System.out.println("La fecha" + x + " " + fechaArray);
@@ -165,15 +245,19 @@ public class MainActivity extends Activity {
                 if (val == -1) {
 
                 } else {
-                    String texto = MainActivity.this.items.get(x).toString();
-                    System.out.println("El teeexto que quiero agregar es: "+texto);
-                    tv.setText(texto);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setTitle("Atención");
-                    builder.setMessage("La siguiente actividad está caducada.¿Que deseas hacer?");
-                    builder.setView(tv);
 
-                    builder.create().show();
+                    posicionCaducada.add(String.valueOf(x));
+
+                    /**
+                     String texto = MainActivity.this.items.get(x).toString();
+                     System.out.println("El teeexto que quiero agregar es: " + texto);
+                     tv.setText(texto);
+                     AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                     builder.setTitle("Atención");
+                     builder.setMessage("La siguiente actividad está caducada.¿Que deseas hacer?");
+                     builder.setView(tv);
+                     builder.create().show();
+                     */
                 }
 
             } catch (ParseException e) {
@@ -181,8 +265,10 @@ public class MainActivity extends Activity {
             }
 
         }
+        for (int i = 0; i < posicionCaducada.size(); i++) {
+            System.out.println("estos indices son los que estan caducados" + i);
 
-
+        }return posicionCaducada;
     }
 
     int year;
