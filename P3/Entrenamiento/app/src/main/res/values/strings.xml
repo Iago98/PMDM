@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Entrenamiento</string>
+    <string name="añadir">Añadir entrenamiento</string>
+    <string name="stats">Stats</string>
+    <string name="opEliminiar">Eliminar</string>
+</resources>
