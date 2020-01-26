@@ -2,9 +2,14 @@ package com.example.todo4;
 
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,73 +17,172 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
+
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
     protected static final int CODIGO_EDICION_ITEM = 100;
     protected static final int CODIGO_ADICION_ITEM = 102;
 
 
-    //    @Override
-//    public void onResume() {
-//        super.onResume();
-//        adaptadorItems.clear();
-//        items.clear();
-//        fechas.clear();
-//        int size;
-//
-//        SharedPreferences prefs = this.getPreferences( Context.MODE_PRIVATE );
-//        size = Integer.valueOf(prefs.getString("tamañoItems","0"));
-//
-//
-//        for(int z = 0; z<size; z++){
-//            String item = prefs.getString("item" + z,"");
-//            String fecha= prefs.getString("fecha"+z,"");
-//
-//            items.add(item);
-//            fechas.add(fecha);
-//
-//        }
-//        ArrayList<String> caducados=compararFechas();
-//
-//        if(caducados.size()==0){
-//
-//        }else {
-//            itemsCaducadosBorrar(caducados);
-//        }
-//
-//
-//    }
-//    @Override
-//    public void onPause()
-//    {
-//        super.onPause();
-//
-//        SharedPreferences.Editor edit = this.getPreferences( Context.MODE_PRIVATE ).edit();
-//
-//        edit.putString("tamañoItems",String.valueOf(items.size()));
-//
-//
-//        for(int z=0;z<items.size();z++){
-//            edit.putString(("item"+String.valueOf(z)), String.valueOf(items.get(z)));
-//            edit.putString(("fecha"+String.valueOf(z)), String.valueOf(fechas.get(z)));
-//
-//        }
-//
-//        edit.commit();
-//        adaptadorItems.clear();
-//        items.clear();
-//        fechas.clear();
-//
-//
-//    }
+        @Override
+    public void onResume() {
+        super.onResume();
+            final ListaTodo app = (ListaTodo) this.getApplication();
+
+
+        ArrayList<String> caducados=compararFechas();
+
+        if(caducados.size()==0){
+
+        }else {
+            itemsCaducadosBorrar(caducados);
+        }
+
+
+    }
+
+    private ArrayList<String> compararFechas() {
+        int valor = 5;
+        int index = 0;
+        final TextView tv = new TextView(this);
+        int mensajes = 0;
+        ArrayList<String> posicionCaducada = new ArrayList<String>();
+        final ListaTodo app = (ListaTodo) this.getApplication();
+
+        for (int x = 0; x < app.getTodoList().size(); x++) {
+            String fechaArray = app.getTodoList().get(x).getFecha();
+            System.out.println("La fecha" + x + " " + fechaArray);
+            Calendar fechaRecuperada = recuperarFechaActual();
+            Calendar fecha_calendar = Calendar.getInstance();
+
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date fecha_date = sdf.parse(fechaArray);
+                fecha_calendar.setTime(fecha_date);
+                System.out.println("La fecha q recupero es " + fechaRecuperada.getTime());
+                int val = fechaRecuperada.compareTo(fecha_calendar);
+                if (val == -1) {
+
+                } else {
+
+                    posicionCaducada.add(String.valueOf(x));
+
+
+                }
+
+            } catch (ParseException e) {
+                Log.v("printf", "ERROR!: can not parsing! ");
+            }
+
+        }
+        for (int i = 0; i < posicionCaducada.size(); i++) {
+            System.out.println("estos indices son los que estan caducados" + i);
+
+        }return posicionCaducada;
+    }
+
+    private void itemsCaducadosBorrar(ArrayList<String> listaCaducada) {
+        final ArrayList<String> caducados= listaCaducada;
+        final ArrayList selectedItems = new ArrayList();
+        final ArrayList<String> seeeelected = new ArrayList<String>();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final ArrayList<String> itemCaducados= new ArrayList<>();
+        final ListaTodo app = (ListaTodo) this.getApplication();
+
+        final boolean[] array = new boolean[caducados.size()];
+        for(int x=0;x<caducados.size();x++){
+            itemCaducados.add(app.getTodoList().get(Integer.parseInt(caducados.get(x))).getTexto());
+            array[x]=false;
+
+
+        }
+        String[] stockArr = itemCaducados.toArray(new String[itemCaducados.size()]);
+        System.out.println("aqui va tu itemscaducados: "+itemCaducados.toString());
+        builder.setMultiChoiceItems(stockArr,array, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean b) {
+                if(b){
+                    seeeelected.add(Integer.toString(which));
+
+                }else if(seeeelected.contains(Integer.toString(which))){
+
+                    seeeelected.remove(Integer.toString(Integer.valueOf(which)));
+                }
+                System.out.println("MARCADOS "+seeeelected.toString());
+
+            }
+        });
+        builder.setPositiveButton("Eliminar Marcados", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println("Items seleccionados para borrar"+which);
+                for (int i=0;i<seeeelected.size();i++){
+
+
+
+
+                    int b=Integer.valueOf(seeeelected.get(i));
+
+
+                    String fechass= app.getTodoList().get(Integer.valueOf(caducados.get(b))).getFecha();
+                    String algo= app.getTodoList().get(Integer.valueOf(caducados.get(b))).getTexto();
+                    for (int s=0;s<app.getTodoList().size();s++){
+                        if(app.getTodoList().get(s).getTexto().equals(algo)&&fechass.equals(app.getTodoList().get(s).getFecha())){
+                            MainActivity.this.adaptadorItems.remove( app.getTodoList().get(s));
+                        }else {
+
+                        }
+                    }
+                    System.out.println("ESTOS SON LOS CADUCADSOS "+algo);
+
+
+
+                }
+                MainActivity.this.adaptadorItems.notifyDataSetChanged();
+
+
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        SharedPreferences.Editor edit = this.getPreferences(Context.MODE_PRIVATE).edit();
+
+        final ListaTodo app = (ListaTodo) this.getApplication();
+        edit.putString("tamañoItems", String.valueOf(app.getTodoList().size()));
+
+
+        for (int z = 0; z < app.getTodoList().size(); z++) {
+            edit.putString(("item" + String.valueOf(z)), String.valueOf(app.getTodoList().get(z).getTexto()));
+            edit.putString(("fecha" + String.valueOf(z)), String.valueOf(app.getTodoList().get(z).getFecha()));
+
+        }
+        edit.commit();
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -130,61 +234,6 @@ public class MainActivity extends AppCompatActivity {
         return toret;
     }
 
-//                @Override
-//                public void onResume () {
-//                super.onResume();
-//                itemsAdapter.clear();
-//                items.clear();
-//                fechas.clear();
-//                int size;
-//
-//                SharedPreferences prefs = this.getPreferences(Context.MODE_PRIVATE);
-//                size = Integer.valueOf(prefs.getString("tamañoItems", "0"));
-//
-//
-//                for (int z = 0; z < size; z++) {
-//                    String item = prefs.getString("item" + z, "");
-//                    String fecha = prefs.getString("fecha" + z, "");
-//
-//                    items.add(item);
-//                    fechas.add(fecha);
-//
-//                }
-//                ArrayList<String> caducados = compararFechas();
-//
-//                if (caducados.size() == 0) {
-//
-//                } else {
-//                    itemsCaducadosBorrar(caducados);
-//                }
-//
-//
-//            }
-//            @Override
-//            public void onPause ()
-//            {
-//                super.onPause();
-//
-//                SharedPreferences.Editor edit = this.getPreferences(Context.MODE_PRIVATE).edit();
-//
-//                edit.putString("tamañoItems", String.valueOf(items.size()));
-//
-//
-//                for (int z = 0; z < items.size(); z++) {
-//                    edit.putString(("item" + String.valueOf(z)), String.valueOf(items.get(z)));
-//                    edit.putString(("fecha" + String.valueOf(z)), String.valueOf(fechas.get(z)));
-//
-//                }
-//
-//                edit.commit();
-//                itemsAdapter.clear();
-//                items.clear();
-//                fechas.clear();
-//
-//
-//            }
-
-
     private void modificar(int i) {
         Intent subActividad = new Intent(MainActivity.this, TodoEditionActivity.class);
         subActividad.putExtra("pos", i);
@@ -224,6 +273,17 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_ITEM);
             }
         });
+        int size;
+        SharedPreferences prefs = this.getPreferences( Context.MODE_PRIVATE );
+        size = Integer.valueOf(prefs.getString("tamañoItems","0"));
+
+
+        for(int z = 0; z<size; z++){
+            String item = prefs.getString("item" + z,"");
+            String fecha= prefs.getString("fecha"+z,"");
+            System.out.println("intento recuperar");
+            app.addTodo(fecha,item);
+        }
     }
 
     private void añadir() {
@@ -247,11 +307,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//            private Calendar recuperarFechaActual () {
-//
-//                Calendar fecha = new GregorianCalendar(Locale.getDefault());
-//                return fecha;
-//            }
+            private Calendar recuperarFechaActual () {
+
+        Calendar fecha = new GregorianCalendar(Locale.getDefault());
+        return fecha;
+    }
 
 
     int year;
@@ -259,35 +319,7 @@ public class MainActivity extends AppCompatActivity {
     int day;
 
 
-//    private void seleccionarFechaModificada(final String texto,final int position) {
-//        final DatePickerDialog dlg = new DatePickerDialog(MainActivity.this, new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-//                MainActivity.this.year = year;
-//                MainActivity.this.month = month;
-//                MainActivity.this.day = dayOfMonth;
-//                System.out.println(MainActivity.this.year);
-//
-//                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//                Calendar fecha = new GregorianCalendar(year, month, dayOfMonth);
-//                String strDate = dateFormat.format(fecha.getTime());
-//                fechas.set(position,strDate);
-//                items.set(position,texto);
-//                MainActivity.this.itemsAdapter.notifyDataSetChanged();
-//
-//                //MainActivity.this.itemsAdapter.add(texto);
-//
-//
-//            }
-//
-//        },
-//                2019, 0, 1
-//        );
-//
-//        dlg.show();
-//
-//
-//    }
+
 
 
     private ArrayAdapter<Todo> adaptadorItems;

@@ -31,6 +31,7 @@ public class TodoEditionActivity extends AppCompatActivity {
 
 
         Intent datosEnviados = this.getIntent();
+
         btFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,8 +65,8 @@ public class TodoEditionActivity extends AppCompatActivity {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar fechas = new GregorianCalendar(year, month, day);
                     String strDate = dateFormat.format(fechas.getTime());
-
                     app.modifyTodo(pos, texto, strDate);
+
                 } else {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Calendar fechas = new GregorianCalendar(year, month, day);
