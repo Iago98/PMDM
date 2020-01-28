@@ -1,7 +1,9 @@
 package com.example.todo4;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class TodoEditionActivity extends AppCompatActivity {
     @Override
@@ -35,7 +38,34 @@ public class TodoEditionActivity extends AppCompatActivity {
         btFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                seleccionarFecha();
+
+                final Calendar calendarOn = Calendar.getInstance(TimeZone.getDefault());
+                int yearr = calendarOn.get(Calendar.YEAR);
+                int monthh = calendarOn.get(Calendar.MONTH);
+                int dayy = calendarOn.get(Calendar.DAY_OF_MONTH);
+
+                final DatePickerDialog dlg = new DatePickerDialog(TodoEditionActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+
+                        TodoEditionActivity.this.year = year;
+                        TodoEditionActivity.this.month = month;
+                        TodoEditionActivity.this.day = dayOfMonth;
+                        final Button btFecha = (Button) TodoEditionActivity.this.findViewById(R.id.btFecha);
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Calendar fechas = new GregorianCalendar(year, month, dayOfMonth);
+                        String strDate = dateFormat.format(fechas.getTime());
+                        btFecha.setText(strDate);
+
+
+                    }
+
+                },
+                        yearr, monthh, dayy
+                );
+
+                dlg.show();
 
             }
         });
@@ -59,23 +89,27 @@ public class TodoEditionActivity extends AppCompatActivity {
 
         btGuardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                final String texto = edTexto.getText().toString();
-                final String fecha = btFecha.getText().toString();
-                if (pos >= 0) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Calendar fechas = new GregorianCalendar(year, month, day);
-                    String strDate = dateFormat.format(fechas.getTime());
-                    app.modifyTodo(pos, texto, strDate);
-
+                if (edTexto.getText().toString().isEmpty() || btFecha.getText().toString().isEmpty()) {
+                    error();
                 } else {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    Calendar fechas = new GregorianCalendar(year, month, day);
-                    String strDate = dateFormat.format(fechas.getTime());
-                    System.out.println("fecha"+strDate);
-                    app.addTodo(strDate, texto);
+                    final String texto = edTexto.getText().toString();
+                    final String fecha = btFecha.getText().toString();
+                    if (pos >= 0) {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Calendar fechas = new GregorianCalendar(year, month, day);
+                        String strDate = dateFormat.format(fechas.getTime());
+                        app.modifyTodo(pos, texto, strDate);
+
+                    } else {
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                        Calendar fechas = new GregorianCalendar(year, month, day);
+                        String strDate = dateFormat.format(fechas.getTime());
+                        System.out.println("fecha" + strDate);
+                        app.addTodo(strDate, texto);
+                    }
+                    TodoEditionActivity.this.setResult(Activity.RESULT_OK);
+                    TodoEditionActivity.this.finish();
                 }
-                TodoEditionActivity.this.setResult(Activity.RESULT_OK);
-                TodoEditionActivity.this.finish();
             }
         });
         btGuardar.setEnabled(false);
@@ -122,34 +156,19 @@ public class TodoEditionActivity extends AppCompatActivity {
     private int day;
 
 
-    public void seleccionarFecha() {
-
-        final DatePickerDialog dlg = new DatePickerDialog(TodoEditionActivity.this, new DatePickerDialog.OnDateSetListener() {
+    private void error() {
+        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error");
+        builder.setMessage("Campo vacío/s.");
+        builder.setPositiveButton("Reintentar", null);
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                TodoEditionActivity.this.year = year;
-                TodoEditionActivity.this.month = month;
-                TodoEditionActivity.this.day = dayOfMonth;
-                final Button btFecha = (Button) TodoEditionActivity.this.findViewById(R.id.btFecha);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Calendar fechas = new GregorianCalendar(year, month, dayOfMonth);
-                String strDate = dateFormat.format(fechas.getTime());
-                btFecha.setText(strDate);
-
-
-
-
-
-
+            public void onClick(DialogInterface dialog, int which) {
+                TodoEditionActivity.this.setResult(Activity.RESULT_CANCELED);
+                TodoEditionActivity.this.finish();
             }
-
-        },
-                2019, 0, 1
-        );
-
-        dlg.show();
-
-
+        });
+        builder.create().show();
     }
 
 

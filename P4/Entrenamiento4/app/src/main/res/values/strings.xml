@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Entrenamiento</string>
+    <string name="añadir">Añadir entrenamiento</string>
+    <string name="stats">Stats</string>
+    <string name="opEliminiar">Eliminar</string>
+    <string name="lblNombre">Nombre</string>
+    <string name="pistaNombre">nombre del entrenamiento</string>
+    <string name="lblDistancia">Distancia en KM</string>
+    <string name="pistaDistancia">KM</string>
+    <string name="btCancelar">Cancelar</string>
+    <string name="btGuardar">Guardar</string>
+    <string name="lblTiempo">Tiempo</string>
+    <string name="pistaTiempo">Min</string>
+    <string name="opModificar">Modificar</string>
+</resources>

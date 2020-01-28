@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/añadir"
+        android:id="@+id/opAñadir" />
+    <item android:title="@string/stats"
+        android:id="@+id/opStats" />
+</menu>
