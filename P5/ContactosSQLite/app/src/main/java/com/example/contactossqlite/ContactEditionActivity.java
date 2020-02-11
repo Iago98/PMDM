@@ -2,6 +2,7 @@ package com.example.contactossqlite;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -16,8 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ContactEditionActivity extends AppCompatActivity {
     EditText edNombre,edApellido,edEmail,edTelefono;
     ListaContactos app;
+    ConexionSQLite conn;
 
 public static int id=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,7 @@ public static int id=0;
          edApellido = (EditText) this.findViewById(R.id.edApellido);
       edEmail = (EditText) this.findViewById(R.id.edEmail);
       edTelefono = (EditText) this.findViewById(R.id.edTelefono);
+
         System.out.println("alala4");
         final int pos = datosEnviados.getExtras().getInt("pos");
         System.out.println("alala5");
@@ -63,11 +67,15 @@ public static int id=0;
         btGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (edNombre.getText().toString().isEmpty() || edApellido.getText().toString().isEmpty() || edEmail.getText().toString().isEmpty() || edTelefono.getText().toString().isEmpty()) {
                     error();
-                } else {
+                } else if(pos >= 0){
+                   modificarContactoSQL(pos);
+                }else if(pos < 0){
                     registrarContactoSQL();
                 }
+
             }
         });
         btCancelar.setOnClickListener(new View.OnClickListener() {
@@ -79,29 +87,43 @@ public static int id=0;
 
     }
 
+    private void modificarContactoSQL(int pos) {
+        conn= new ConexionSQLite(this, "bd_contactos",null,1);
+        SQLiteDatabase db= conn.getWritableDatabase();
+    String[] parametros={String.valueOf(app.getListaContacto().get(pos).getId())};
+        ContentValues values= new ContentValues();
+        values.put(Utilidades.CAMPO_NOMBRE,edNombre.getText().toString());
+        values.put(Utilidades.CAMPO_APELLIDO,edApellido.getText().toString());
+        values.put(Utilidades.CAMPO_EMAIL,edEmail.getText().toString());
+        values.put(Utilidades.CAMPO_TELEFONO,edTelefono.getText().toString());
+        db.update(Utilidades.TABLA_CONTACTO,values,Utilidades.CAMPO_ID+"=?",parametros);
 
+        app.modifyContact(pos,Integer.valueOf(app.getListaContacto().get(pos).getId()),edNombre.getText().toString(),edApellido.getText().toString(),edEmail.getText().toString(),Integer.valueOf(edTelefono.getText().toString()));
+
+        db.close();
+        ContactEditionActivity.this.setResult(Activity.RESULT_OK);
+        ContactEditionActivity.this.finish();
+    }
     private void registrarContactoSQL() {
         ConexionSQLite conn= new ConexionSQLite(this, "bd_contactos",null,1);
-        generarid();
+        System.out.println("alala9");
         SQLiteDatabase db=conn.getWritableDatabase();
+        System.out.println("alala10");
 
         //insert into contact(id,nombre,apellido,email,telefono) values ();
         String insert="INSERT INTO "+Utilidades.TABLA_CONTACTO
-                +" ( "+ Utilidades.CAMPO_ID+","+Utilidades.CAMPO_NOMBRE+","+Utilidades.CAMPO_APELLIDO+","+Utilidades.CAMPO_EMAIL+","+Utilidades.CAMPO_TELEFONO+" ) "+
-                "VALUES ( "+id+",'"+edNombre.getText().toString()+"','"+edApellido.getText().toString()+"','"+edEmail.getText().toString()+"',"+edTelefono.getText().toString()+")";
+                +" ( "+Utilidades.CAMPO_NOMBRE+","+Utilidades.CAMPO_APELLIDO+","+Utilidades.CAMPO_EMAIL+","+Utilidades.CAMPO_TELEFONO+" ) "+
+                "VALUES ( '"+edNombre.getText().toString()+"','"+edApellido.getText().toString()+"','"+edEmail.getText().toString()+"',"+edTelefono.getText().toString()+")";
         System.out.println(insert.toString());
         db.execSQL(insert);
         db.close();
         System.out.println(id +edNombre.getText().toString()+edApellido.getText().toString()+edEmail.getText().toString()+Integer.valueOf(edTelefono.getText().toString()));
-        app.addContact( id, edNombre.getText().toString(),edApellido.getText().toString(),edEmail.getText().toString(),Integer.valueOf(edTelefono.getText().toString()));
+        app.addContact( Integer.valueOf(app.getListaContacto().size()),edNombre.getText().toString(),edApellido.getText().toString(),edEmail.getText().toString(),Integer.valueOf(edTelefono.getText().toString()));
+        System.out.println("aqiiiii"+Integer.valueOf(app.getListaContacto().size()));
         ContactEditionActivity.this.setResult(Activity.RESULT_OK);
         ContactEditionActivity.this.finish();
     }
 
-    public void generarid(){
-
-        id++;
-    }
         private void error(){
             android.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Error");

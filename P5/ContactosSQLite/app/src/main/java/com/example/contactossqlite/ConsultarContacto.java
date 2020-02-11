@@ -58,7 +58,6 @@ public class ConsultarContacto extends AppCompatActivity {
         edApellido.setText("");
         edEmail.setText("");
         edTelefono.setText("");
-
     }
 
 

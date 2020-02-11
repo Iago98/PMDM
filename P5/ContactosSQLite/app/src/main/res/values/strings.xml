@@ -11,4 +11,7 @@
     <string name="btCancelar">Cancelar</string>
     <string name="btGuardar">Guardar</string>
     <string name="btBuscar">Buscar</string>
+    <string name="opModificar">Modificar</string>
+    <string name="opEliminiar">Eliminar</string>
+    <string name="añadir">Añadir</string>
 </resources>

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ListaContactos extends Application {
 
-    private List<Contacto> contacto;
+    private  List<Contacto> contacto;
 
     public List<Contacto> getListaContacto() {
         return contacto;
@@ -22,7 +22,7 @@ public class ListaContactos extends Application {
 
 
 
-    public void addContact(int id, String nombre , String apellido,String email ,int telefono) {
+    public  void addContact(int id, String nombre , String apellido,String email ,int telefono) {
         Contacto contacto = new Contacto(id ,nombre , apellido,email, telefono);
 
         this.contacto.add(contacto);
@@ -34,8 +34,11 @@ public class ListaContactos extends Application {
 
         this.contacto.set(pos, todo);
     }
-    public void eliminar(int pos) {
+    public int eliminar(int pos) {
+        int id=this.contacto.get(pos).getId();
         this.contacto.remove(pos);
+
+        return id;
     }
 
 
