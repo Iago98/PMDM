@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,34 +24,46 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     protected static final int CODIGO_EDICION_ITEM = 100;
     protected static final int CODIGO_ADICION_ITEM = 102;
-    ConexionSQLite conn;
+    static ConexionSQLite conn;
 
 
     @Override
     public void onStart() {
         super.onStart();
         adaptadorItems.clear();
-
+        conn= new ConexionSQLite(this, "bd_contactos",null,1);
         ListaContactos app = (ListaContactos) this.getApplication();
          final ListView lvLista = (ListView) this.findViewById(R.id.lvItems);
-        lvLista.setAdapter(this.adaptadorItems);
-       ArrayList<Contacto> listaa= recuperarListaContactos();
-       for(int x=0;x<listaa.size();x++){
-           System.out.println("aqui rec lista"+listaa.get(x).getId()+listaa.get(x).getNombre()+listaa.get(x).getApellido()+listaa.get(x).getEmail()+listaa.get(x).getTelefono());
-           app.addContact(listaa.get(x).getId(),listaa.get(x).getNombre(),listaa.get(x).getApellido(),listaa.get(x).getEmail(),listaa.get(x).getTelefono());
 
-       }
+        this.adaptadorDB = new SimpleCursorAdapter(
+                this,
+                R.layout.lvlcontacto,
+                null,
+                new String[] { Utilidades.CAMPO_NOMBRE, Utilidades.CAMPO_APELLIDO,Utilidades.CAMPO_EMAIL,Utilidades.CAMPO_TELEFONO },
+                new int[] { R.id.tablaNombre, R.id.tablaApellido,R.id.tablaEmail,R.id.tablaTelef}
+        );
+        ArrayList<Contacto> listaa= recuperarListaContactos();
+        for(int x=0;x<listaa.size();x++){
+            System.out.println("aqui rec lista"+listaa.get(x).getId()+listaa.get(x).getNombre()+listaa.get(x).getApellido()+listaa.get(x).getEmail()+listaa.get(x).getTelefono());
+            app.addContact(listaa.get(x).getId(),listaa.get(x).getNombre(),listaa.get(x).getApellido(),listaa.get(x).getEmail(),listaa.get(x).getTelefono());
+
+        }
+        lvLista.setAdapter( this.adaptadorDB );
+      this.actualizaContacto();
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button btAdd = (Button) this.findViewById(R.id.btAdd);
         Button btBuscar = (Button) this.findViewById(R.id.btBuscar);
         ListView lvLista = (ListView) this.findViewById(R.id.lvItems);
-        conn= new ConexionSQLite(this, "bd_contactos",null,1);
+
         final ListaContactos app = (ListaContactos) this.getApplication();
+
 
         this.adaptadorItems = new ArrayAdapter<Contacto>(this, android.R.layout.simple_selectable_list_item, app.getListaContacto());
         lvLista.setAdapter(this.adaptadorItems);
@@ -129,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    public void actualizaContacto(){
+        this.adaptadorDB.changeCursor( this.conn.getContacto() );
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem menuItem) {
@@ -140,18 +156,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.opEliminar:
 
                 eliminarIdBD(pos);
-                MainActivity.this.adaptadorItems.notifyDataSetChanged();
+
                 toret = true;
                 break;
             case R.id.opModificar:
                 modificar(pos);
-                MainActivity.this.modificar(pos);
                 toret = true;
                 break;
         }
         return toret;
     }
     private void modificar(int i) {
+
         Intent subActividad = new Intent(MainActivity.this, ContactEditionActivity.class);
         subActividad.putExtra("pos", i);
         MainActivity.this.startActivityForResult(subActividad, CODIGO_EDICION_ITEM);
@@ -173,7 +189,9 @@ public class MainActivity extends AppCompatActivity {
                     String[] parametros = {String.valueOf(id)};
                     db.delete(Utilidades.TABLA_CONTACTO,Utilidades.CAMPO_ID+"=?",parametros);
                     db.close();
+                    actualizaContacto();
                     MainActivity.this.adaptadorItems.notifyDataSetChanged();
+                    adaptadorDB.notifyDataSetChanged();
 
                 }
             });
@@ -193,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return;
     }
-    private ArrayAdapter<Contacto> adaptadorItems;
 
+    private ArrayAdapter<Contacto> adaptadorItems;
+    private SimpleCursorAdapter adaptadorDB;
 }

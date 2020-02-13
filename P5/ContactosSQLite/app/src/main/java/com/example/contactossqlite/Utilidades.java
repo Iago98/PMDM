@@ -4,7 +4,7 @@ public class Utilidades {
 
 
     public static final String TABLA_CONTACTO="contacto";
-    public static final String CAMPO_ID="ID";
+    public static final String CAMPO_ID="_id";
     public static final String CAMPO_NOMBRE="nombre";
     public static final String CAMPO_APELLIDO="apellido";
     public static final String CAMPO_EMAIL="email";

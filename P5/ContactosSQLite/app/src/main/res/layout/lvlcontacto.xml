@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
+    <TableRow>
+
+        <TextView
+            android:textAlignment="center"
+            android:layout_width="93dp"
+            android:layout_height="match_parent"
+            android:padding="3dip"
+            android:text="@string/lblNombre" />
+
+        <TextView
+            android:id="@+id/tablaNombre"
+            android:layout_width="113dp"
+            android:gravity="left"
+            android:padding="3dip"
+            android:text="@string/lblNombre" />
+
+        <TextView
+            android:layout_width="108dp"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:padding="3dip"
+            android:text="@string/lblApellido" />
+
+        <TextView
+            android:id="@+id/tablaApellido"
+            android:textAlignment="center"
+            android:padding="3dip"
+            android:text="@string/tablaApellido" />
+    </TableRow>
+
+
+    <TableRow>
+
+        <TextView
+            android:textAlignment="center"
+
+            android:layout_width="wrap_content"
+            android:padding="3dip"
+            android:text="@string/Email" />
+
+        <TextView
+            android:id="@+id/tablaEmail"
+            android:gravity="left"
+            android:padding="3dip"
+            android:text="@string/lblEmail" />
+
+        <TextView
+            android:padding="3dip"
+            android:text="@string/lblTelefono" />
+
+        <TextView
+            android:textAlignment="center"
+
+            android:id="@+id/tablaTelef"
+            android:padding="3dip"
+            android:text="@string/lblTelefono" />
+    </TableRow>
+</TableLayout>
