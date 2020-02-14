@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -18,16 +18,22 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" android:layout_weight="0.2" android:layout_marginTop="20dp"
             android:layout_gravity="center_vertical" android:gravity="center_vertical">
+
             <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/btAdd"
+                android:layout_width="195dp"
                 android:layout_height="wrap_content"
-                android:text="+"
-                android:id="@+id/btAdd" android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:background="#BC4CAF50"
+                android:text="@string/a_adir" />
+
             <Button
-                android:layout_width="wrap_content"
+                android:id="@+id/btBuscar"
+                android:layout_width="216dp"
                 android:layout_height="wrap_content"
-                android:text="Buscar"
-                android:id="@+id/btBuscar" android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:background="#9EFFC107"
+                android:text="@string/buscar" />
 
         </LinearLayout>
     </LinearLayout>

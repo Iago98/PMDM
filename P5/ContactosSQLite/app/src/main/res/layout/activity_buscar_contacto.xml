@@ -24,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/lblNombre" />
+            android:text="@string/lblNombre"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/edNombre"
@@ -33,6 +34,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:maxLength="42"
+            android:textSize="16sp"
             android:hint="@string/pistaNombre"
             android:inputType="textPersonName"
             android:maxLines="1" />
@@ -57,16 +59,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="18sp"
             android:text="@string/lblApellido" />
 
-        <EditText
+        <TextView
             android:id="@+id/edApellido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:maxLength="42"
-            android:hint="@string/pistaApellido"
+            android:textSize="16sp"
+
             android:inputType="textPersonName"
             android:maxLines="1" />
     </LinearLayout>
@@ -82,16 +86,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="18sp"
             android:text="@string/lblTelefono" />
 
-        <EditText
+        <TextView
             android:id="@+id/edTelefono"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:maxLength="42"
-            android:hint="@string/pistaTelefono"
+            android:textSize="16sp"
+
             android:inputType="phone"
             android:maxLines="1" />
     </LinearLayout>
@@ -107,16 +113,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textSize="18sp"
             android:text="@string/lblEmail" />
 
-        <EditText
+        <TextView
             android:id="@+id/edEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:maxLength="42"
-            android:hint="@string/pistaEmail"
+            android:textSize="16sp"
+
             android:inputType="textEmailAddress"
             android:maxLines="1" />
     </LinearLayout>

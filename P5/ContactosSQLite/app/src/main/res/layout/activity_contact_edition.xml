@@ -32,9 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:maxLength="42"
+            android:maxLength="15"
             android:hint="@string/pistaNombre"
-            android:inputType="textPersonName"
             android:maxLines="1" />
 
     </LinearLayout>
@@ -55,13 +54,13 @@
 
         <EditText
             android:id="@+id/edApellido"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:maxLength="42"
+            android:maxLength="15"
             android:hint="@string/pistaApellido"
-            android:inputType="textPersonName"
             android:maxLines="1" />
     </LinearLayout>
     <LinearLayout
@@ -84,9 +83,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:maxLength="42"
+            android:maxLength="9"
+            android:inputType="number"
             android:hint="@string/pistaTelefono"
-            android:inputType="phone"
             android:maxLines="1" />
     </LinearLayout>
     <LinearLayout
@@ -109,9 +108,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:maxLength="42"
             android:hint="@string/pistaEmail"
-            android:inputType="textEmailAddress"
+            android:maxLength="15"
             android:maxLines="1" />
     </LinearLayout>
 

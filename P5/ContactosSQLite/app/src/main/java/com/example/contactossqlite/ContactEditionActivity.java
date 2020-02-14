@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ContactEditionActivity extends AppCompatActivity {
-    EditText edNombre,edApellido,edEmail,edTelefono;
+    EditText edNombre;
+    TextView edApellido,edEmail,edTelefono;
     ListaContactos app;
     ConexionSQLite conn;
 
@@ -34,9 +36,9 @@ public static int id=0;
         final Button btGuardar = (Button) this.findViewById(R.id.btGuardar);
         final Button btCancelar = (Button) this.findViewById(R.id.btCancelar);
          edNombre = (EditText) this.findViewById(R.id.edNombre);
-         edApellido = (EditText) this.findViewById(R.id.edApellido);
-      edEmail = (EditText) this.findViewById(R.id.edEmail);
-      edTelefono = (EditText) this.findViewById(R.id.edTelefono);
+         edApellido = (TextView) this.findViewById(R.id.edApellido);
+      edEmail = (TextView) this.findViewById(R.id.edEmail);
+      edTelefono = (TextView) this.findViewById(R.id.edTelefono);
 
         System.out.println("alala4");
         final int pos = datosEnviados.getExtras().getInt("pos");

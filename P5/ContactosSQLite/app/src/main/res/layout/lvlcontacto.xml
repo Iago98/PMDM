@@ -3,24 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:stretchColumns="1">
+
     <TableRow>
 
         <TextView
-            android:textAlignment="center"
-            android:layout_width="93dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="3dip"
-            android:text="@string/lblNombre" />
+            android:text="@string/lblNombre"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tablaNombre"
-            android:layout_width="113dp"
-            android:gravity="left"
+            android:layout_width="match_parent"
             android:padding="3dip"
             android:text="@string/lblNombre" />
 
         <TextView
-            android:layout_width="108dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left"
             android:padding="3dip"
@@ -28,24 +28,26 @@
 
         <TextView
             android:id="@+id/tablaApellido"
-            android:textAlignment="center"
             android:padding="3dip"
-            android:text="@string/tablaApellido" />
+            android:text="@string/tablaApellido"
+            android:textAlignment="center" />
     </TableRow>
 
 
     <TableRow>
 
         <TextView
-            android:textAlignment="center"
+            android:layout_width="0dp"
 
-            android:layout_width="wrap_content"
             android:padding="3dip"
-            android:text="@string/Email" />
+            android:text="@string/Email"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/tablaEmail"
-            android:gravity="left"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
             android:padding="3dip"
             android:text="@string/lblEmail" />
 
@@ -54,10 +56,11 @@
             android:text="@string/lblTelefono" />
 
         <TextView
-            android:textAlignment="center"
-
             android:id="@+id/tablaTelef"
+
+            android:layout_width="211dp"
             android:padding="3dip"
-            android:text="@string/lblTelefono" />
+            android:text="@string/lblTelefono"
+            android:textAlignment="center" />
     </TableRow>
 </TableLayout>
