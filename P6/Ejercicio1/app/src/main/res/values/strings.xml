@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Calcular Area</string>
+    <string name="app_name">Conexiones</string>
     <string name="label_default_result">WiFi</string>
     <string name="label_default_result_false">Error</string>
     <string name="val_1">valor 1</string>
@@ -7,4 +7,7 @@
     <string name="val_2">valor 2</string>
     <string name="largo">Largo:</string>
     <string name="ancho">Ancho:</string>
+    <string name="actualizar_estado">Actualizar Conexion</string>
+    <string name="conexion">Conexión</string>
+    <string name="conectado">Tipo de conexión:</string>
 </resources>
