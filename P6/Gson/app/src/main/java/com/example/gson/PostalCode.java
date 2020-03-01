@@ -52,10 +52,10 @@ public class PostalCode {
     @Override
     public String toString() {
         return
-                "adminName1=" + adminName1 +
-                ", adminName2=" + adminName2 +
-                ", adminName3=" + adminName3 +
-                ", placeName=" + placeName;
+                "Comunidad autónoma:" + adminName1 +
+                        ", Provincia:" + adminName2 +
+                        ", Ayuntamiento:" + adminName3 +
+                        ", Zona:" + placeName;
     }
 
     public PostalCode(String countryCode,String adminName1, String adminName2, String adminName3, String placeName) {
