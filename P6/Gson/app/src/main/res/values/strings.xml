@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Gson</string>
+    <string name="Buscar">Buscar</string>
+    <string name="hit">Codigo Postal</string>
+</resources>
