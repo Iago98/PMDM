@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Ejercicio3</string>
+    <string name="buscar">Buscar</string>
+    <string name="url">Ejemplo: eldiario.es</string>
+</resources>
