@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function myFunction() {
+  var cant = document.getElementById("cantidad").value;
+  var comp = document.getElementById("comprar").value;
+  var node = document.createElement("LI");
+  var textnode = document.createTextNode(comp+" "+cant);
+  node.appendChild(textnode);
+  document.getElementById("myList").appendChild(node);
+  Android.guardar(cant.toString(), comp.toString() );
+}
+</script>
+<ul  id="myList">
+</ul>
+
+<form>
+    <label for="comprar">A comprar</label>
+    <input  type="text" id="comprar" name="fname"><br><br>
+    <label for="Cantidad">Cantidad</label>
+    <input  type="text" id="cantidad" name="lname"><br><br>
+    <input type="submit" value="Comprar" onclick="myFunction()">
+</form>
+
+</body>
+</html>

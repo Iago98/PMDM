@@ -13,13 +13,13 @@ function calculate() {
 	dvResult.appendChild( pResult );
 	var op1 = parseInt( edOp1.value, 10 );
 	var op2 = parseInt( edOp2.value, 10 );
-	if(cond=="*"){
+	if(cond.value=="*"){
 		var res = op1 * op2;
-	}else if(cond=="/"){
+	}else if(cond.value=="/"){
 		var res = op1 / op2;
-	}else if(cond=="-"){
+	}else if(cond.value=="-"){
 		var res = op1 - op2;
-	}else if(cond=="+"z){
+	}else if(cond.value=="+"){
 		var res = op1 + op2;
 	}
 
@@ -32,10 +32,17 @@ function calculate() {
 <p>
 <form id="formCalc" onSubmit="javascript: calculate(); return false;">
     <div>
-    <input id="edOp1" type="text" size="10" placeholder="0" style="text-align: right"/>
-    <br /><input  id="cond" type="text" size="1" placeholder="/*-+" style="text-align: center"/>
-    <br /><input id="edOp2" type="text" size="10" placeholder="0" style="text-align: right"/>
-</div>
+        <input id="edOp1" type="text" size="10" placeholder="0" style="text-align: right"/>
+        <br />
+        <select id="cond">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="/">/</option>
+            <option value="*">*</option>
+        </select>
+
+        <br /><input id="edOp2" type="text" size="10" placeholder="0" style="text-align: right"/>
+    </div>
     <input id="btCalc" type="submit" value="="/>
 </form>
 </p>

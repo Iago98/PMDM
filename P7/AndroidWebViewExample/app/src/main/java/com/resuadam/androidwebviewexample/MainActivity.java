@@ -28,11 +28,17 @@ public class MainActivity extends AppCompatActivity {
         requestWindowFeature( Window.FEATURE_NO_TITLE );
         setContentView( R.layout.activity_main );
 
-
+        ImageButton btBack = (ImageButton) this.findViewById( R.id.btBack );
         WebView wvView = (WebView) this.findViewById( R.id.wvView );
 
-        wvView.setWebViewClient(new WebViewClient());
-        wvView.loadUrl("http://www.google.es");
+        btBack.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.finish();
+            }
+        } );
+
+        this.configureWebView( wvView, "http://www.google.es", 10 );
     }
 
     private void configureWebView(WebView wvView, String url, int defaultFontSize)
