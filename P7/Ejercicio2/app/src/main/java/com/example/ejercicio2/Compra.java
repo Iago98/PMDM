@@ -20,4 +20,12 @@ public class Compra {
     public void setCant(String cant) {
         this.cant = cant;
     }
+
+    @Override
+    public String toString() {
+        return "Compra{" +
+                "compra='" + compra + '\'' +
+                ", cant='" + cant + '\'' +
+                '}';
+    }
 }

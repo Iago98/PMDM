@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             obj.setCompra(comp);
             obj.setCant(cant);
             lista.add(obj);
-
+            System.out.println(obj.toString());
 
         }
         ListaCompra.setListaCompra(lista);
@@ -72,15 +72,17 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = this.getPreferences( Context.MODE_PRIVATE ).edit();
         SharedPreferences prefs = this.getPreferences( Context.MODE_PRIVATE );
         Integer tamaño=0;
+        tamaño = prefs.getInt("tamaño", 0);
         for(int x=0;x<compra.size();x++) {
             System.out.println(compra.get(x).getCant().toString());
             System.out.println(compra.get(x).getCompra().toString());
-            tamaño = prefs.getInt("tamaño", 0);
+
             edit.putInt("tamaño", tamaño+1);
             edit.putString("cantidad", compra.get(x).getCant());
             edit.putString("compra", compra.get(x).getCompra());
-            edit.commit();
         }
+        edit.commit();
+
     }
 
     private void configureWebView(WebView wvView, String url, int defaultFontSize)

@@ -42,22 +42,25 @@ static ArrayList<Compra> lista = new ArrayList<>();
     }
 
     @JavascriptInterface
-    public String[] compra(){
+    public static String[] compra(){
         ArrayList<Compra> list=ListaCompra.getListaCompra();
         String[] array= null;
+        System.out.println("--------------------------------------------------------------------------------------------------------------");
         for (int x=0;x<list.size();x++){
             array[x]=list.get(x).getCompra();
+            System.out.println("me estan llamando a compr devuelvo: "+array[x].toString());
         }
 
         return array;
     }
 
     @JavascriptInterface
-    public String[] cant(){
+    public static String[] cant(){
         ArrayList<Compra> list=ListaCompra.getListaCompra();
         String[] array= null;
         for (int x=0;x<list.size();x++){
             array[x]=list.get(x).getCant();
+            System.out.println("me estan llamando a cant devuelvo"+array[x].toString());
         }
 
         return array;

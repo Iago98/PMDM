@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html>
-<body>
+<body onload="recuperar()">
 <script>
+function recuperar(){
+var comp = [];
+var cant = [];
+comp=Android.compra();
+cant=Android.cant();
+for(var x=0;x<comp.lenght;x++){
+ var node = document.createElement("LI");
+  var textnode = document.createTextNode(comp[x]+" "+cant[x]);
+ node.appendChild(textnode);
+ document.getElementById("myList").appendChild(node);
+}
+}
+
 function myFunction() {
   var cant = document.getElementById("cantidad").value;
   var comp = document.getElementById("comprar").value;
@@ -11,6 +24,7 @@ function myFunction() {
   document.getElementById("myList").appendChild(node);
   Android.guardar(cant.toString(), comp.toString() );
 }
+
 </script>
 <ul  id="myList">
 </ul>
