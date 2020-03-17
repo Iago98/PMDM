@@ -24,45 +24,67 @@ public class WebAppInterface extends AppCompatActivity {
     public void showToast(String toast) {
         Toast.makeText( context, toast, Toast.LENGTH_LONG ).show();
     }
-static ArrayList<Compra> lista = new ArrayList<>();
+
 
 
     @JavascriptInterface
-    public static ArrayList<Compra> guardar(String cant,String compra) {
+    public static void guardar(String cant,String compra) {
+         ArrayList<Compra> lista = ListaCompra.getListaCompra();
+        for (int x=0;x<lista.size();x++){
+           System.out.println("aqui esttttttttttttoooooooooooooooy"+lista.get(x).getCompra().toString());
+        }
         if(cant.equals("")||cant.equals("")){
 
         }else {
-
+            System.out.println("guardando"+cant+compra);
             Compra com = new Compra();
             com.setCant(cant);
             com.setCompra(compra);
             lista.add(com);
         }
-        return lista;
+      ListaCompra.setListaCompra(lista);
+        System.out.println("tamaño de lista guardando"+lista.size());
+
     }
 
     @JavascriptInterface
-    public static String[] compra(){
+    public static String compra(){
         ArrayList<Compra> list=ListaCompra.getListaCompra();
-        String[] array= null;
+        String str= "";
+
         System.out.println("--------------------------------------------------------------------------------------------------------------");
+
         for (int x=0;x<list.size();x++){
-            array[x]=list.get(x).getCompra();
-            System.out.println("me estan llamando a compr devuelvo: "+array[x].toString());
+            str+=list.get(x).getCompra()+"-";
+            System.out.println("me estan llamando a compr devuelvo: "+str.toString());
         }
 
-        return array;
+        return str;
+    }
+    @JavascriptInterface
+    public static int num(){
+        ArrayList<Compra> list=ListaCompra.getListaCompra();
+        int num= list.size();
+        System.out.println("el numero es: "+num);
+        return num;
     }
 
     @JavascriptInterface
-    public static String[] cant(){
+    public static void eliminarById(int id){
         ArrayList<Compra> list=ListaCompra.getListaCompra();
-        String[] array= null;
+        System.out.println("elimino esto: "+list.get(id).toString());
+        list.remove(id);
+    }
+    @JavascriptInterface
+    public static String cant(){
+        ArrayList<Compra> list=ListaCompra.getListaCompra();
+        String str= "";
+        String s="-";
         for (int x=0;x<list.size();x++){
-            array[x]=list.get(x).getCant();
-            System.out.println("me estan llamando a cant devuelvo"+array[x].toString());
+            str+=list.get(x).getCant()+"-";
+            System.out.println("me estan llamando a cant devuelvo"+str.toString());
         }
 
-        return array;
+        return str;
     }
 }

@@ -49,12 +49,13 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences prefs = this.getPreferences( Context.MODE_PRIVATE );
         size = prefs.getInt("tamaño",0);
-        ArrayList<Compra> lista= new ArrayList<>();
+        System.out.println("eltamaño ess: "+size);
+        ArrayList<Compra> lista= new ArrayList<Compra>();
 
 
         for(int z = 0; z<size; z++){
-            String comp = prefs.getString("cantidad","");
-            String cant = prefs.getString("compra", "");
+            String comp = prefs.getString("compra" + z,"");
+            String cant = prefs.getString("cantidad" + z, "");
             Compra obj = new Compra();
             obj.setCompra(comp);
             obj.setCant(cant);
@@ -67,20 +68,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void save(){
-        ArrayList<Compra> compra= new ArrayList<>();
-        compra=WebAppInterface.guardar("","");
+        ArrayList<Compra> compra= ListaCompra.getListaCompra();
+
         SharedPreferences.Editor edit = this.getPreferences( Context.MODE_PRIVATE ).edit();
-        SharedPreferences prefs = this.getPreferences( Context.MODE_PRIVATE );
-        Integer tamaño=0;
-        tamaño = prefs.getInt("tamaño", 0);
+
+        Integer tamaño= compra.size();
+        System.out.println("tamaño de int"+tamaño);
+
         for(int x=0;x<compra.size();x++) {
-            System.out.println(compra.get(x).getCant().toString());
+            System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"+compra.get(x).getCant().toString());
             System.out.println(compra.get(x).getCompra().toString());
 
-            edit.putInt("tamaño", tamaño+1);
-            edit.putString("cantidad", compra.get(x).getCant());
-            edit.putString("compra", compra.get(x).getCompra());
+
+            edit.putString(("cantidad"+String.valueOf(x)), compra.get(x).getCant());
+            edit.putString(("compra"+String.valueOf(x)), compra.get(x).getCompra());
         }
+        edit.putInt("tamaño", tamaño);
         edit.commit();
 
     }

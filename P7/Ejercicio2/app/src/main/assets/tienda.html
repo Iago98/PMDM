@@ -3,37 +3,56 @@
 <body onload="recuperar()">
 <script>
 function recuperar(){
-var comp = [];
-var cant = [];
-comp=Android.compra();
-cant=Android.cant();
-for(var x=0;x<comp.lenght;x++){
+var nombres=Android.compra();
+var cant=Android.cant();
+var num=Android.num();
+var nomSep = nombres.split("-");
+var cantSep = cant.split("-");
+for(var x=0;x<num;x++){
+var btn = document.createElement("Button");
+btn.innerHTML = (" X");
+btn.addEventListener("click",function elimina(aux){
+Android.eliminarById(parseInt(aux.currentTarget.parentNode.id));
+aux.currentTarget.parentNode.remove();
+},false);
  var node = document.createElement("LI");
-  var textnode = document.createTextNode(comp[x]+" "+cant[x]);
+  var textnode = document.createTextNode(nomSep[x]+" "+cantSep[x]);
+ node.setAttribute("id",[x]);
  node.appendChild(textnode);
+ node.appendChild(btn);
  document.getElementById("myList").appendChild(node);
 }
 }
 
 function myFunction() {
+var num=Android.num();
   var cant = document.getElementById("cantidad").value;
   var comp = document.getElementById("comprar").value;
   var node = document.createElement("LI");
   var textnode = document.createTextNode(comp+" "+cant);
+  var btn = document.createElement("Button");
+btn.innerHTML = (" X");
+btn.addEventListener("click",function elimina(aux){
+Android.eliminarById(parseInt(aux.currentTarget.parentNode.id));
+aux.currentTarget.parentNode.remove();
+},false);
+ node.setAttribute("id",num);
   node.appendChild(textnode);
+  node.appendChild(btn);
   document.getElementById("myList").appendChild(node);
   Android.guardar(cant.toString(), comp.toString() );
+
 }
 
 </script>
-<ul  id="myList">
+<ul  id="myList" style="list-style: none">
 </ul>
 
 <form>
     <label for="comprar">A comprar</label>
     <input  type="text" id="comprar" name="fname"><br><br>
     <label for="Cantidad">Cantidad</label>
-    <input  type="text" id="cantidad" name="lname"><br><br>
+    <input  type="number" id="cantidad" name="lname"><br><br>
     <input type="submit" value="Comprar" onclick="myFunction()">
 </form>
 
