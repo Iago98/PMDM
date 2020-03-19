@@ -9,18 +9,33 @@ var num=Android.num();
 var nomSep = nombres.split("-");
 var cantSep = cant.split("-");
 for(var x=0;x<num;x++){
+if(nomSep[x]==""&& cantSep[x]==""){
+}else{
 var btn = document.createElement("Button");
+var btnEdit = document.createElement("Button");
 btn.innerHTML = (" X");
+btnEdit.innerHTML = (" Edit");
 btn.addEventListener("click",function elimina(aux){
 Android.eliminarById(parseInt(aux.currentTarget.parentNode.id));
 aux.currentTarget.parentNode.remove();
+},false);
+
+btnEdit.addEventListener("click",function edita(aux){
+var nombreCant=Android.recuperoId(parseInt(aux.currentTarget.parentNode.id));
+var nomSep = nombreCant.split("-");
+document.getElementById("cantidad").value=nomSep[0];
+document.getElementById("comprar").value=nomSep[1];
+aux.currentTarget.parentNode.remove();
+Android.eliminarById(parseInt(aux.currentTarget.parentNode.id));
 },false);
  var node = document.createElement("LI");
   var textnode = document.createTextNode(nomSep[x]+" "+cantSep[x]);
  node.setAttribute("id",[x]);
  node.appendChild(textnode);
  node.appendChild(btn);
+ node.appendChild(btnEdit);
  document.getElementById("myList").appendChild(node);
+}
 }
 }
 
@@ -31,14 +46,26 @@ var num=Android.num();
   var node = document.createElement("LI");
   var textnode = document.createTextNode(comp+" "+cant);
   var btn = document.createElement("Button");
+  var btnEdit = document.createElement("Button");
 btn.innerHTML = (" X");
+btnEdit.innerHTML = (" Edit");
 btn.addEventListener("click",function elimina(aux){
 Android.eliminarById(parseInt(aux.currentTarget.parentNode.id));
+
 aux.currentTarget.parentNode.remove();
+},false);
+btnEdit.addEventListener("click",function edita(aux){
+var nombreCant=Android.recuperoId(parseInt(aux.currentTarget.parentNode.id));
+var nomSep = nombreCant.split("-");
+document.getElementById("cantidad").value=nomSep[0];
+document.getElementById("comprar").value=nomSep[1];
+aux.currentTarget.parentNode.remove();
+Android.eliminarById(parseInt(aux.currentTarget.parentNode.id));
 },false);
  node.setAttribute("id",num);
   node.appendChild(textnode);
   node.appendChild(btn);
+  node.appendChild(btnEdit);
   document.getElementById("myList").appendChild(node);
   Android.guardar(cant.toString(), comp.toString() );
 
@@ -58,3 +85,18 @@ aux.currentTarget.parentNode.remove();
 
 </body>
 </html>
+<style>
+
+body {
+
+  text-align: center;
+  border: 3px solid green;
+
+  font-size: 20px;
+
+}
+input {
+height: 40px;
+  width: 50%;
+}
+</style>

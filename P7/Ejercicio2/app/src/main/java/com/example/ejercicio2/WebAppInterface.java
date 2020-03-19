@@ -73,7 +73,16 @@ public class WebAppInterface extends AppCompatActivity {
     public static void eliminarById(int id){
         ArrayList<Compra> list=ListaCompra.getListaCompra();
         System.out.println("elimino esto: "+list.get(id).toString());
-        list.remove(id);
+        list.get(id).setCant("");
+        list.get(id).setCompra("");
+
+    }
+    @JavascriptInterface
+    public static String recuperoId(int id){
+        ArrayList<Compra> list=ListaCompra.getListaCompra();
+        String rec="";
+        rec= list.get(id).getCant()+"-"+ list.get(id).getCompra();
+    return rec;
     }
     @JavascriptInterface
     public static String cant(){
