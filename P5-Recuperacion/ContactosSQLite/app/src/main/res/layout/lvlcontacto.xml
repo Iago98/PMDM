@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="102dp"
+            android:layout_height="match_parent"
+            android:padding="3dip"
+            android:text="@string/lblNombre"
+            android:textSize="50px"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/tablaNombre"
+            android:textSize="40px"
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="@string/lblNombre" />
+
+    </TableRow>
+
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="102dp"
+            android:padding="3dip"
+            android:textSize="50px"
+
+            android:text="@string/Email"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/tablaEmail"
+            android:textSize="40px"
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:text="@string/lblEmail" />
+
+    </TableRow>
+
+    <TableRow>
+
+
+        <TextView
+            android:layout_width="102dp"
+            android:layout_height="match_parent"
+            android:textAlignment="center"
+            android:textSize="50px"
+
+            android:padding="3dip"
+            android:text="@string/lblApellido" />
+
+        <TextView
+            android:id="@+id/tablaApellido"
+            android:textSize="40px"
+            android:textStyle="bold|italic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/tablaApellido"
+            android:textAlignment="center" />
+    </TableRow>
+
+    <TableRow>
+
+
+        <TextView
+            android:textAlignment="center"
+            android:layout_width="102dp"
+            android:textSize="50px"
+            android:layout_height="match_parent"
+            android:text="@string/lblTelefono" />
+
+        <TextView
+            android:textStyle="bold|italic"
+            android:id="@+id/tablaTelef"
+            android:layout_height="match_parent"
+            android:textSize="40px"
+            android:layout_width="wrap_content"
+            android:text="@string/lblTelefono"
+            android:textAlignment="center" />
+    </TableRow>
+</TableLayout>
