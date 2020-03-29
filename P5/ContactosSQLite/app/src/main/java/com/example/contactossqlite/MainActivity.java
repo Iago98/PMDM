@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button btAdd = (Button) this.findViewById(R.id.btAdd);
-        Button btBuscar = (Button) this.findViewById(R.id.btBuscar);
         ListView lvLista = (ListView) this.findViewById(R.id.lvItems);
 
         final ListaContactos app = (ListaContactos) this.getApplication();
@@ -76,14 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 añadir();
             }
         });
-        btBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent subActividad = new Intent(MainActivity.this, ConsultarContacto.class);
-                subActividad.putExtra("pos", -1);
-                MainActivity.this.startActivityForResult(subActividad, CODIGO_ADICION_ITEM);
-            }
-        });
+
 
 
 
