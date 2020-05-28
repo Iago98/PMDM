@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">PFC</string>
+    <string name="entrarBt">Iniciar Sesión</string>
+    <string name="registrarseBt">Regístrate</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="registrarseRest">Registrarse como cuenta de Restaurante</string>
+    <string name="registrarseCom">Registrarse como cuenta Común</string>
+    <string name="nombre">Nombre</string>
+    <string name="nombreRestaurante">Nombre De Restaurante</string>
+    <string name="contrasenha">Contraseña</string>
+    <string name="nombreInicioSesion">Nombre para loguearse</string>
+    <string name="Restaurante">Restaurante</string>
+    <string name="comun">Común</string>
+    <string name="tipo">Tipo</string>
+    <string name="frase1">¿No tienes cuenta?</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="ubicacionBt">Seleccionar Ubicación</string>
+
+</resources>
