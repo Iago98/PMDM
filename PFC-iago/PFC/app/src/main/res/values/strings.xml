@@ -1,19 +1,31 @@
 <resources>
     <string name="app_name">PFC</string>
+    <string name="topRestaurante">Bienvenido a su Restaurante</string>
     <string name="entrarBt">Iniciar Sesión</string>
     <string name="registrarseBt">Regístrate</string>
     <string name="registrarse">Registrarse</string>
     <string name="registrarseRest">Registrarse como cuenta de Restaurante</string>
-    <string name="registrarseCom">Registrarse como cuenta Común</string>
+    <string name="registrarseCom">Registrarse como cuenta Normal</string>
     <string name="nombre">Nombre</string>
     <string name="nombreRestaurante">Nombre De Restaurante</string>
     <string name="contrasenha">Contraseña</string>
-    <string name="nombreInicioSesion">Nombre para loguearse</string>
+    <string name="nombreInicioSesion">Login</string>
     <string name="Restaurante">Restaurante</string>
-    <string name="comun">Común</string>
+    <string name="comun">Normal</string>
     <string name="tipo">Tipo</string>
+    <string name="distancia">Se encuentra a:</string>
+    <string name="btBorrar">Eliminar</string>
+    <string name="mas">Más...</string>
+    <string name="btGuardar">Guardar</string>
+    <string name="btCancelar">Cancelar</string>
+    <string name="menuNuevo">Nuevo Menú</string>
+    <string name="tituloMenu">Titulo</string>
+    <string name="descripcionMenu">Descripción</string>
     <string name="frase1">¿No tienes cuenta?</string>
     <string name="title_activity_maps">Map</string>
     <string name="ubicacionBt">Seleccionar Ubicación</string>
-
+    <string name="title_activity_transition_add">Añadir Menú</string>
+    <string name="manteneriInicioSesion">Mantener Sesion Iniciada</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="alertdialog">¿Seguro que quieres borrar el menú?</string>
 </resources>

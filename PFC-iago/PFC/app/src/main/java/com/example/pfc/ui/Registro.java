@@ -1,6 +1,6 @@
 package com.example.pfc.ui;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,13 +14,10 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.pfc.R;
 import com.example.pfc.core.UTILES;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -44,10 +41,6 @@ public class Registro extends AppCompatActivity {
     Button btRegistro,btUbi;
     Boolean estado= false;
     String line = "";
-    String string="";
-    String[] parts = null;
-    String isLogin ="";
-    String typeLogin="";
     String latLong="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +54,7 @@ public class Registro extends AppCompatActivity {
         edContra = (TextInputEditText) this.findViewById(R.id.textInputLayoutContra);
         edNombre = (TextInputEditText) this.findViewById(R.id.textInputLayoutNombre);
         SharedPreferences prefs = getSharedPreferences("mispref",Context.MODE_PRIVATE );
-
         intro = (TextView) this.findViewById(R.id.textViewIntro);
-
         btUbi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,13 +68,12 @@ public class Registro extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-
             if(!edLogin.getText().toString().equals("")||!edContra.getText().toString().equals("")||!edNombre.getText().toString().equals("")){
 
                 if(estado){
                     Regs log = new Regs();
                     latLong= prefs.getString("lat/lng","");
+                    System.out.println("Restaurante"+edLogin.getText().toString()+edContra.getText().toString()+edNombre.getText().toString()+latLong);
                     log.execute("Restaurante",edLogin.getText().toString(),edContra.getText().toString(),edNombre.getText().toString(),latLong);
                 }else{
                     Regs log = new Regs();
@@ -102,11 +92,11 @@ public class Registro extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     intro.setText(R.string.registrarseRest);
-                    estado=false;
+                    estado=true;
                     btUbi.setVisibility(View.VISIBLE);
                 } else {
                     intro.setText(R.string.registrarseCom);
-                    estado=true;
+                    estado=false;
                     btUbi.setVisibility(View.GONE);
                 }
             }
@@ -122,8 +112,8 @@ public class Registro extends AppCompatActivity {
                 ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
                 nameValuePairs.add(new BasicNameValuePair("tipo", strings[0]));
                 nameValuePairs.add(new BasicNameValuePair("login", strings[1]));
-                nameValuePairs.add(new BasicNameValuePair("nombre", strings[2]));
-                nameValuePairs.add(new BasicNameValuePair("contra", strings[3]));
+                nameValuePairs.add(new BasicNameValuePair("contra", strings[2]));
+                nameValuePairs.add(new BasicNameValuePair("nombre", strings[3]));
                 nameValuePairs.add(new BasicNameValuePair("ubicacion", strings[4]));
                 HttpClient client = new DefaultHttpClient();
                 HttpPost post = new HttpPost("http://" + UTILES.IP_PREDEFINIDO+":"+UTILES.PUERTO_OUT +"/connection/registro");
@@ -165,10 +155,12 @@ public class Registro extends AppCompatActivity {
 
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+
+                Registro.this.finish();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(Registro.this);
                 builder.setTitle("Error al registrar");
-                builder.setMessage("El nombre de usuario"+edLogin.getText().toString() +"ya existe");
+                builder.setMessage("El nombre de usuario "+edLogin.getText().toString() +" ya existe");
                 builder.setPositiveButton("Reintentar", null);
                 edLogin.setText("");
                 builder.create().show();

@@ -1,0 +1,251 @@
+package com.example.pfc.ui;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.pfc.R;
+import com.example.pfc.core.UTILES;
+import com.google.android.material.textfield.TextInputEditText;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
+
+public class Login extends AppCompatActivity {
+
+    CheckBox checkB;
+
+    TextInputEditText edLogin, edContra;
+    String line = "";
+    String string = "";
+    String[] parts = null;
+    String isLogin = "";
+    String typeLogin = "";
+    ImageView img;
+    private long backPressedTime;
+    private Toast backToast;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        SharedPreferences prefs = getSharedPreferences("mispref", Context.MODE_PRIVATE);
+        String login = prefs.getString("login", "");
+        String contra = prefs.getString("contra", "");
+        String tipo = prefs.getString("tipo", "");
+        System.out.println(tipo.toString() + "aqui el tipo");
+        System.out.println(contra.toString() + "aqui el contra");
+        System.out.println(login.toString() + "aqui el login");
+        if (!login.equals("") && !contra.equals("") && tipo.equals("restaurante")) {
+            System.out.println("paso por intent de inicio automatico de restaurante");
+            Intent subActividad = new Intent(Login.this, MenuRestaurante.class);
+            subActividad.putExtra("log", login);
+            subActividad.putExtra("contra", contra);
+
+            Login.this.startActivity(subActividad);
+        } else if (!login.equals("") && !contra.equals("") && tipo.equals("comun")) {
+            System.out.println("paso por intent de inicio automatico de comun");
+            Intent subActividad = new Intent(Login.this, MenuComun.class);
+            subActividad.putExtra("log", login);
+            subActividad.putExtra("contra", contra);
+            Login.this.startActivity(subActividad);
+        }
+        setContentView(R.layout.login);
+        checkB = (CheckBox) findViewById(R.id.checkBox);
+        img = (ImageView) findViewById(R.id.imageView2);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+        final Button btLogin = (Button) this.findViewById(R.id.button);
+        final Button btRegistro = (Button) this.findViewById(R.id.button2);
+        edLogin = (TextInputEditText) this.findViewById(R.id.textInputLayout21);
+        edContra = (TextInputEditText) this.findViewById(R.id.textInputLayout31);
+
+
+        btLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edLogin.getText().toString().isEmpty() || edContra.getText().toString().isEmpty()) {
+                    error();
+                } else {
+                    Login.Login2 log = new Login.Login2();
+                    log.execute(edLogin.getText().toString(), edContra.getText().toString());
+                }
+
+            }
+        });
+
+        btRegistro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent subActividad = new Intent(Login.this, Registro.class);
+                subActividad.putExtra("log", edLogin.getText().toString());
+                subActividad.putExtra("contra", edContra.getText().toString());
+                Login.this.startActivity(subActividad);
+
+
+            }
+        });
+
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Presiona de nuevo para salir", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+        backPressedTime = System.currentTimeMillis();
+    }
+
+    private void error() {
+        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error");
+        builder.setMessage("Campo vacío/s.");
+        builder.setPositiveButton("Reintentar", null);
+        builder.create().show();
+    }
+
+    class Login2 extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            InputStream is = null;
+            try {
+                ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+                nameValuePairs.add(new BasicNameValuePair("login", strings[0]));
+                nameValuePairs.add(new BasicNameValuePair("contrasenha", strings[1]));
+                HttpClient client = new DefaultHttpClient();
+                HttpPost post = new HttpPost("http://" + UTILES.IP_PREDEFINIDO + ":" + UTILES.PUERTO_OUT + "/connection/login");
+                System.out.println("http://" + UTILES.IP_PREDEFINIDO + ":" + UTILES.PUERTO_OUT + "/connection/login");
+                post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = client.execute(post);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e) {
+                Log.e("log_tag", "Error in http connection " + e.toString());
+            }
+
+            //leer respuesta del servlet
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+                line = reader.readLine();
+                string = line;
+                parts = string.split("-");
+                System.out.println(line);
+                System.out.println("Esto es " + line);
+                isLogin = parts[0];
+                typeLogin = parts[1];
+                if (isLogin.equalsIgnoreCase("true")) {
+                    System.out.println("Entro en true");
+                    return true;
+                } else if (isLogin.equalsIgnoreCase("false")) {
+                    System.out.println("Entro en false");
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result && typeLogin.equals("cliente")) {
+                Context context = getApplicationContext();
+                CharSequence text = "true y cliente";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                SharedPreferences.Editor edit = getSharedPreferences("mispref", Context.MODE_PRIVATE).edit();
+                if (checkB.isChecked()) {
+
+                    edit.putString("login", edLogin.getText().toString());
+                    edit.putString("contra", edContra.getText().toString());
+                    edit.putString("tipo", "comun");
+                    edit.commit();
+                } else {
+                    edit.putString("login", "");
+                    edit.putString("contra", "");
+                    edit.putString("tipo", "");
+                    edit.commit();
+                }
+                Intent subActividad = new Intent(Login.this, MenuComun.class);
+                subActividad.putExtra("log", edLogin.getText().toString());
+                subActividad.putExtra("contra", edContra.getText().toString());
+                Login.this.startActivity(subActividad);
+            } else if (result && typeLogin.equals("restaurante")) {
+                SharedPreferences.Editor edit = getSharedPreferences("mispref", Context.MODE_PRIVATE).edit();
+
+                if (checkB.isChecked()) {
+                    edit.putString("login", edLogin.getText().toString());
+                    edit.putString("contra", edContra.getText().toString());
+                    edit.putString("tipo", "restaurante");
+
+                    edit.commit();
+                } else {
+                    edit.putString("login", "");
+                    edit.putString("contra", "");
+                    edit.putString("tipo", "");
+                    edit.commit();
+                }
+                Context context = getApplicationContext();
+                CharSequence text = "true y restaurante";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+                Intent subActividad = new Intent(Login.this, MenuRestaurante.class);
+                subActividad.putExtra("log", edLogin.getText().toString());
+                subActividad.putExtra("contra", edContra.getText().toString());
+
+                Login.this.startActivity(subActividad);
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                builder.setTitle("Error al iniciar sesión");
+                builder.setMessage("El nombre de usuario o contraseña no son correctos.");
+                builder.setPositiveButton("Aceptar", null);
+                builder.create().show();
+            }
+        }
+    }
+}

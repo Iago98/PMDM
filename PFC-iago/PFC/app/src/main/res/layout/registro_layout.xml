@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,15 +50,15 @@
             android:id="@+id/textInputLayoutNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/nombre" />
+            android:hint="@string/nombre"
+             />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Switch
         android:id="@+id/switch2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:text="@string/tipo"
+        android:layout_marginTop="100dp"
         android:textColor="#BDBDBD"
         app:layout_constraintEnd_toStartOf="@+id/textView4"
         app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -69,7 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="70dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,14 +79,15 @@
             android:id="@+id/textInputLayoutContra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/contrasenha" />
+            android:hint="@string/contrasenha"
+            android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:layout_marginStart="92dp"
         android:layout_marginTop="3dp"
         android:text="@string/comun"
         android:textColor="#000000"
