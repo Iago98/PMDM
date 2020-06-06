@@ -8,11 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.pfc.R;
 import com.example.pfc.ui.MenuComun;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -20,12 +17,23 @@ public class ItemAdapter extends BaseAdapter {
 
     protected Activity activity;
     protected ArrayList<RegistroRestaurante> items;
+    private Context context;
     DecimalFormat formato1 = new DecimalFormat("#.00");
 
 
-    public ItemAdapter(Activity activity, ArrayList<RegistroRestaurante> items) {
+    public ItemAdapter(Activity activity, ArrayList<RegistroRestaurante> items, Context context) {
         this.activity = activity;
         this.items = items;
+        this.context = context;
+
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -56,10 +64,8 @@ public class ItemAdapter extends BaseAdapter {
         menus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                RequestMenuComun req= new RequestMenuComun();
-                req.execute(item.getLogin()+"noPass");
-
+            MenuComun menu = new MenuComun();
+            menu.lanzarMenus(item.getLogin().toString(),context);
             }
         });
         TextView nombre = (TextView) vi.findViewById(R.id.textView5);

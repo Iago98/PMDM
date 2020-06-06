@@ -1,19 +1,12 @@
 package com.example.pfc.core;
 
-import android.Manifest;
-import android.app.Activity;
+
+
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.example.pfc.ui.MenuComun;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
