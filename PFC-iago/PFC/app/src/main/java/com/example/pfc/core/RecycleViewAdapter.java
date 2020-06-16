@@ -6,6 +6,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -23,9 +25,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pfc.R;
 import com.example.pfc.ui.AddMenu;
+import com.example.pfc.ui.Login;
 import com.example.pfc.ui.MenuRestaurante;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class RecycleViewAdapter  extends RecyclerView.Adapter<RecycleViewAdapter.ViewHolder> {
@@ -97,15 +113,17 @@ public class RecycleViewAdapter  extends RecyclerView.Adapter<RecycleViewAdapter
 
                         view.setVisibility(View.INVISIBLE);
                         //Se elimina de la base de datos y de la lista
-//                        gestorDB.eliminarEntrenamiento(listaEntrenamientos.get(list_position).getId());
-//                        listaEntrenamientos.remove(list_position);
+                        DeleteMenu delete = new DeleteMenu();
+                        delete.execute(String.valueOf(MenuRestaurante.menus.get(list_position).getId()));
+                        listaMenu.remove(list_position);
                         notifyItemRemoved(list_position);
                     }
                 });
                 animation.start();
             }else{
-//                gestorDB.eliminarEntrenamiento(listaEntrenamientos.get(list_position).getId());
-//                listaEntrenamientos.remove(list_position);
+                DeleteMenu delete = new DeleteMenu();
+                delete.execute(String.valueOf(MenuRestaurante.menus.get(list_position).getId()));
+                listaMenu.remove(list_position);
                 notifyItemRemoved(list_position);
             }
         }catch (Exception e){}
@@ -138,7 +156,6 @@ public class RecycleViewAdapter  extends RecyclerView.Adapter<RecycleViewAdapter
         public ViewHolder( View v) {
             super(v);
 
-
             v.setOnCreateContextMenuListener(this);
             initial = (TextView) v.findViewById(R.id.initial);
             name = (TextView) v.findViewById(R.id.name);
@@ -164,14 +181,13 @@ public class RecycleViewAdapter  extends RecyclerView.Adapter<RecycleViewAdapter
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Pair<View, String> p1 = Pair.create((View) initial, MenuRestaurante.TRANSITION_INITIAL);
                     Pair<View, String> p2 = Pair.create((View) name, MenuRestaurante.TRANSITION_NAME);
                     Pair<View, String> p3 = Pair.create((View) deleteButton, MenuRestaurante.TRANSITION_DELETE_BUTTON);
-
                     ActivityOptionsCompat options;
                     Activity act = (AppCompatActivity) context;
                     options = ActivityOptionsCompat.makeSceneTransitionAnimation(act, p1, p2, p3);
-
                     int requestCode = getAdapterPosition();
                     Menu entre= new Menu();
                     entre= listaMenu.get(getAdapterPosition());
@@ -182,7 +198,6 @@ public class RecycleViewAdapter  extends RecyclerView.Adapter<RecycleViewAdapter
                     transitionIntent.putExtra("id",entre.getId());
                     transitionIntent.putExtra("titulo",entre.getTitulo());
                     transitionIntent.putExtra("desc",String.valueOf(entre.getDescripcion()));
-
                     transitionIntent.putExtra(MenuRestaurante.EXTRA_COLOR, color);
                     transitionIntent.putExtra(MenuRestaurante.EXTRA_UPDATE, false);
                     transitionIntent.putExtra(MenuRestaurante.EXTRA_DELETE, false);
@@ -218,5 +233,49 @@ public class RecycleViewAdapter  extends RecyclerView.Adapter<RecycleViewAdapter
             MenuItem borrar = menu.add(android.view.Menu.NONE, 1, 1, R.string.eliminar);
             borrar.setOnMenuItemClickListener(this);
         }
+    }
+    class DeleteMenu extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            InputStream is = null;
+            try{
+                ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+                nameValuePairs.add(new BasicNameValuePair("id", strings[0]));
+                HttpClient client = new DefaultHttpClient();
+                HttpPost post = new HttpPost("http://" + UTILES.IP_PREDEFINIDO+":"+UTILES.PUERTO_OUT +"/connection/delte");
+                System.out.println("http://" +UTILES.IP_PREDEFINIDO+":"+UTILES.PUERTO_OUT +"/connection/registro");
+                post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                HttpResponse response = client.execute(post);
+                HttpEntity entity = response.getEntity();
+                is = entity.getContent();
+            } catch (Exception e){
+                Log.e("log_tag", "Error in http connection "+e.toString());
+            }
+
+            //leer respuesta del servlet
+            try{
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
+              String  line= reader.readLine();
+                System.out.println(line);
+                System.out.println("Esto es " + line);
+                if (line.equalsIgnoreCase("true")){
+                    System.out.println("Entro en true");
+                    return true;
+                } else if (line.equalsIgnoreCase("false")){
+                    System.out.println("Entro en false");
+                    return false;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+        }
+
     }
 }

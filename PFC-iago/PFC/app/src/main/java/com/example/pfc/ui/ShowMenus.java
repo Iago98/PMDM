@@ -35,15 +35,16 @@ public class ShowMenus extends AppCompatActivity {
     String login;
     private ArrayList<Menu> listaMenu = new ArrayList<>();
     private ArrayList<Menu> menus = new ArrayList<>();
-
+    ListView lv;
 
     @Override
     protected void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comun);
+      lv= (ListView)findViewById(R.id.listView);
+       lv.setBackgroundResource(R.drawable.tulo);
         Bundle extras = getIntent().getExtras();
         login = extras.getString("log");
-
         Request req = new Request();
         req.execute(login," ");
 
@@ -100,7 +101,7 @@ public class ShowMenus extends AppCompatActivity {
                 }
                 System.out.println(menus.size()+"aqui va el tamaño del arraylist");
                 listaMenu=menus;
-                ListView lv = (ListView)findViewById(R.id.listView);
+                 lv = (ListView)findViewById(R.id.listView);
                 menuAdapter adapter = new menuAdapter(ShowMenus.this, listaMenu);
                 lv.setAdapter(adapter);
             } catch (IOException e) {

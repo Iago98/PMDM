@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pfc.R;
+import com.example.pfc.core.RecycleViewAdapter;
 import com.example.pfc.core.UTILES;
 
 import org.apache.http.HttpEntity;
@@ -44,6 +46,8 @@ public class AddMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_menu);
 
+         SharedPreferences prefs = getSharedPreferences("mispref", Context.MODE_PRIVATE);
+
 
         final Button btAceptar = (Button) this.findViewById(R.id.aceptar);
         final Button btCancelar = (Button) this.findViewById(R.id.cancelar);
@@ -52,16 +56,16 @@ public class AddMenu extends AppCompatActivity {
 
         final Intent transitionIntent = this.getIntent();
         login = transitionIntent.getExtras().getString("login", "");
+        System.out.println("aqiooooooooooooooooooooooooooooo"+login);
         final int pos = transitionIntent.getExtras().getInt("pos");
         if (pos == -100) {
+            login = transitionIntent.getExtras().getString("login", "");
             id = transitionIntent.getExtras().getInt("id", 0);
-
              titulo = transitionIntent.getExtras().getString("titulo", "ERROR");
             final String desc = transitionIntent.getExtras().getString("desc", "ERROR");
             edTitulo.setText(titulo);
             edDescripcion.setText(desc);
         }
-
         btCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,24 +79,39 @@ public class AddMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AddClass add = new AddClass();
-                if (id == -1) {
-                    //si el menu es nuevo
-                    titulo = edTitulo.getText().toString();
-                    String descrip = edDescripcion.getText().toString();
-                  add.execute(titulo, descrip,login,"-1");
+                if(!edTitulo.getText().toString().trim().isEmpty()&&!edDescripcion.getText().toString().trim().isEmpty()){
 
+                    if (id == -1) {
+                        //si el menu es nuevo
+                        titulo = edTitulo.getText().toString();
+                        String descrip = edDescripcion.getText().toString();
+                        add.execute(titulo, descrip,login,"-1");
+                        AddMenu.this.finish();
 
+                    }else {
+                        login = prefs.getString("login", "");
+                        String titulo = edTitulo.getText().toString();
+                        String descrip = edDescripcion.getText().toString();
+                        add.execute(titulo, descrip, login, String.valueOf(AddMenu.this.id));
+                        //aqui modifica
+                        AddMenu.this.finish();
 
-                }else {
-                    String titulo = edTitulo.getText().toString();
-                    String descrip = edDescripcion.getText().toString();
-                    add.execute(titulo, descrip, login, String.valueOf(AddMenu.this.id));
-                    //aqui modifica
+                    }
+                }else{
+                    error();
                 }
+
             }
         });
 
 
+    }
+    private void error() {
+        android.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Error");
+        builder.setMessage("Campo vacío/s.");
+        builder.setPositiveButton("Reintentar", null);
+        builder.create().show();
     }
     class AddClass extends AsyncTask<String, Void, Boolean> {
         @Override

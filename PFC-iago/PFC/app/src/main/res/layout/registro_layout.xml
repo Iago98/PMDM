@@ -30,6 +30,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputLayoutLoggin"
+            android:maxLength="25"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nombreInicioSesion" />
@@ -50,6 +51,7 @@
             android:id="@+id/textInputLayoutNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLength="15"
             android:hint="@string/nombre"
              />
     </com.google.android.material.textfield.TextInputLayout>
@@ -80,6 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/contrasenha"
+            android:maxLength="10"
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 

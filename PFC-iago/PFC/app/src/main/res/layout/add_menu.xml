@@ -15,6 +15,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="70dp"
         android:hint="@string/tituloMenu"
+        android:maxLength="20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -26,17 +27,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:inputType="textCapSentences|textMultiLine"
-        android:maxLength="2000"
+        android:maxLength="1000"
         android:maxLines="4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulo">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/descripcionMenu" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -44,9 +40,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="180dp"
-        android:text="@string/btCancelar"
+        android:layout_marginTop="350dp"
         android:background="@drawable/btton_redondo"
+        android:text="@string/btCancelar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
 
@@ -54,10 +50,10 @@
         android:id="@+id/aceptar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="350dp"
         android:layout_marginEnd="40dp"
-        android:text="@string/btGuardar"
         android:background="@drawable/btton_redondo"
+        android:text="@string/btGuardar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
 
@@ -72,5 +68,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/descripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:hint="@string/descripcionMenu"
+        app:layout_constraintTop_toBottomOf="@+id/titulo"
+        tools:layout_editor_absoluteX="-9dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

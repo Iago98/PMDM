@@ -44,7 +44,7 @@ public class MenuRestaurante extends AppCompatActivity {
     private ArrayList<Menu> listaMenu = new ArrayList<>();
     private RecycleViewAdapter adapter;
     private RecyclerView recyclerView;
-    ArrayList<Menu> menus= new ArrayList<>();
+   public static ArrayList<Menu> menus= new ArrayList<>();
     public static final String TRANSITION_FAB = "fab_transition";
     public static final String TRANSITION_INITIAL = "initial_transition";
     public static final String TRANSITION_NAME = "name_transition";
@@ -54,12 +54,30 @@ public class MenuRestaurante extends AppCompatActivity {
     public static final String EXTRA_COLOR = "color";
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        loadActivity();
+
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurante);
 
         loadActivity();
 
+
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        this.getMenuInflater().inflate(R.menu.actions_menu, menu);
+        return true;
     }
     public void doSmoothScroll(int position) {
         recyclerView.smoothScrollToPosition(position);
@@ -86,16 +104,15 @@ public class MenuRestaurante extends AppCompatActivity {
                 Activity act = MenuRestaurante.this;
                 options = ActivityOptionsCompat.makeSceneTransitionAnimation(act, pair);
                 Intent transitionIntent = new Intent(act, AddMenu.class);
-                transitionIntent.putExtra("pos", -1);
                 transitionIntent.putExtra("login", login);
+               transitionIntent.putExtra("pos", -1);
+                System.out.println("mira aqui"+login);
                 act.startActivityForResult(transitionIntent, adapter.getItemCount(), options.toBundle());
             }
         });
     }
 
     private void initCards() {
-
-
 
         Request req = new Request();
         req.execute(login,contra);

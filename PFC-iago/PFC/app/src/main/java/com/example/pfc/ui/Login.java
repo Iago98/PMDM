@@ -56,17 +56,18 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class Login extends AppCompatActivity {
 
-    CheckBox checkB;
+    private CheckBox checkB;
     private static final int REQUEST_CODE_LOCATION_PERMISSION =1;
-    TextInputEditText edLogin, edContra;
-    String line = "";
-    String string = "";
-    String[] parts = null;
-    String isLogin = "";
-    String typeLogin = "";
-    ImageView img;
+    private TextInputEditText edLogin, edContra;
+    private String line = "";
+    private String string = "";
+    private String[] parts = null;
+    private  String isLogin = "";
+    private String typeLogin = "";
+    private ImageView img;
     private long backPressedTime;
     private Toast backToast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -266,21 +267,19 @@ private void requestPermission(){
         protected void onPostExecute(Boolean result) {
             super.onPostExecute(result);
             if (result && typeLogin.equals("cliente")) {
-                Context context = getApplicationContext();
-                CharSequence text = "true y cliente";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+//                Context context = getApplicationContext();
+//                CharSequence text = "true y cliente";
+//                int duration = Toast.LENGTH_SHORT;
+//
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
                 SharedPreferences.Editor edit = getSharedPreferences("mispref", Context.MODE_PRIVATE).edit();
+                edit.putString("login", edLogin.getText().toString());
                 if (checkB.isChecked()) {
-
-                    edit.putString("login", edLogin.getText().toString());
                     edit.putString("contra", edContra.getText().toString());
                     edit.putString("tipo", "comun");
                     edit.commit();
                 } else {
-                    edit.putString("login", "");
                     edit.putString("contra", "");
                     edit.putString("tipo", "");
                     edit.commit();
@@ -291,24 +290,23 @@ private void requestPermission(){
                 Login.this.startActivity(subActividad);
             } else if (result && typeLogin.equals("restaurante")) {
                 SharedPreferences.Editor edit = getSharedPreferences("mispref", Context.MODE_PRIVATE).edit();
-
+                edit.putString("login", edLogin.getText().toString());
                 if (checkB.isChecked()) {
-                    edit.putString("login", edLogin.getText().toString());
+
                     edit.putString("contra", edContra.getText().toString());
                     edit.putString("tipo", "restaurante");
 
                     edit.commit();
                 } else {
-                    edit.putString("login", "");
                     edit.putString("contra", "");
                     edit.putString("tipo", "");
                     edit.commit();
                 }
-                Context context = getApplicationContext();
-                CharSequence text = "true y restaurante";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+//                Context context = getApplicationContext();
+//                CharSequence text = "true y restaurante";
+//                int duration = Toast.LENGTH_SHORT;
+//                Toast toast = Toast.makeText(context, text, duration);
+//                toast.show();
                 Intent subActividad = new Intent(Login.this, MenuRestaurante.class);
                 subActividad.putExtra("log", edLogin.getText().toString());
                 subActividad.putExtra("contra", edContra.getText().toString());

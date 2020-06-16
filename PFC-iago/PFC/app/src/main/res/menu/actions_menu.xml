@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/cerrarSesion"
+        android:id="@+id/opCerrarSesion" />
+    <item android:title="@string/eliminarCuenta"
+        android:id="@+id/opEliminarCuenta" />
+</menu>

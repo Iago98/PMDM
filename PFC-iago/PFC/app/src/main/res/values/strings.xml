@@ -15,7 +15,7 @@
     <string name="tipo">Tipo</string>
     <string name="distancia">Se encuentra a:</string>
     <string name="btBorrar">Eliminar</string>
-    <string name="mas">Más...</string>
+    <string name="mas">Menús...</string>
     <string name="btGuardar">Guardar</string>
     <string name="btCancelar">Cancelar</string>
     <string name="menuNuevo">Nuevo Menú</string>
@@ -28,4 +28,6 @@
     <string name="manteneriInicioSesion">Mantener Sesion Iniciada</string>
     <string name="eliminar">Eliminar</string>
     <string name="alertdialog">¿Seguro que quieres borrar el menú?</string>
+    <string name="cerrarSesion">Cerrar Sesión</string>
+    <string name="eliminarCuenta">Eliminar Cuenta</string>
 </resources>

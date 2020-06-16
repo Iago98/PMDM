@@ -73,8 +73,11 @@ public class Registro extends AppCompatActivity {
                 if(estado){
                     Regs log = new Regs();
                     latLong= prefs.getString("lat/lng","");
-                    System.out.println("Restaurante"+edLogin.getText().toString()+edContra.getText().toString()+edNombre.getText().toString()+latLong);
-                    log.execute("Restaurante",edLogin.getText().toString(),edContra.getText().toString(),edNombre.getText().toString(),latLong);
+                    if(latLong.equals("")){
+                        error();
+                    }else {
+                        log.execute("Restaurante", edLogin.getText().toString(), edContra.getText().toString(), edNombre.getText().toString(), latLong);
+                    }
                 }else{
                     Regs log = new Regs();
                     log.execute("Comun",edLogin.getText().toString(),edContra.getText().toString(),edNombre.getText().toString(),"false");
